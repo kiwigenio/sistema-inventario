@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <!-- Conectamos la pintura maestra -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app">
+
+    <!-- Usamos un contenedor más ancho porque esta tabla es enorme -->
+    <div class="contenedor-ancho">
+        
+        <!-- ENCABEZADO SUPERIOR -->
+        <div class="tarjeta-flotante barra-superior">
+            <div>
+                <h2 class="titulo-principal">👥 Mis Clientes</h2>
+                <p class="texto-secundario" style="margin:0;">Panel de Control y Seguimiento</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="color: #475569; font-weight: bold;">👤 Activo: {{ request.user.username }}</span> 
+                <a href="{% url 'login' %}" class="btn btn-alerta" style="padding: 8px 18px; font-size: 14px;">🚪 Salir</a>
+            </div>
+        </div>
+
+        <!-- ALERTAS DE ÉXITO O ERROR (Como el Excel enviado) -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alerta {% if message.tags == 'error' %}alerta-roja{% else %}alerta-verde{% endif %}">
+                    {% if message.tags == 'error' %}❌{% else %}✅{% endif %} {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- CAJA DE HERRAMIENTAS (Botones, Excel y Buscador) -->
+        <div class="tarjeta-flotante" style="margin-bottom: 25px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 35px;">
+            
+            <!-- Botones de Navegación -->
+            <div style="display: flex; gap: 10px;">
+                <a href="{% url 'lista_campanas' %}" class="btn btn-secundario">🔙 Volver</a>
+                {% if request.user == campana_actual.trabajador_asignado %}
+                    <a href="{% url 'registrar_venta' %}" class="btn btn-primario">+ Nueva Venta</a>
+                {% endif %}
+            </div>
+
+            <!-- Formulario Excel (Solo Jefe) -->
+            {% if request.user.is_superuser %}
+                <form action="{% url 'enviar_reporte_excel' %}" method="POST" class="formulario-enlinea">
+                    {% csrf_token %} 
+                    <span style="font-weight: bold; color: #334155; font-size: 14px;">📩 Excel a:</span>
+                    <input type="email" name="correo_escrito" placeholder="Ej: micontador@gmail.com" required class="input-moderno">
+                    <button type="submit" class="btn btn-warning" style="padding: 10px 15px;">Enviar</button>
+                </form>
+            {% endif %}
+
+            <!-- Buscador y Limpiador -->
+            <form method="GET" class="formulario-enlinea">
+                <input type="text" name="q" value="{{ query }}" placeholder="Buscar teléfono..." class="input-moderno" style="width: 200px;">
+                <button type="submit" class="btn btn-primario" style="padding: 10px 15px;">🔍 Buscar</button>
+                
+                {% if campana_actual %}
+                    <a href="{% url 'clientes_por_campana' campana_actual.id %}" class="btn btn-alerta" style="padding: 10px 15px;">✖</a>
+                {% else %}
+                    <a href="{% url 'lista_clientes' %}" class="btn btn-alerta" style="padding: 10px 15px;">✖</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- LA GRAN TABLA DE DATOS -->
+        <div class="tarjeta-flotante" style="padding: 0; overflow: hidden;">
+            <div class="tabla-responsive">
+                <table class="tabla-moderna" style="white-space: nowrap;">
+                    <thead>
+                        <tr>
+                            <th>TIPO ENVÍO</th>
+                            <th>N°</th>
+                            <th>FECHA</th>
+                            <th>CLIENTE</th>
+                            <th>DNI</th>
+                            <th>TELÉFONO</th>
+                            <th>PRODUCTO</th>
+                            <th>REGALO</th>
+                            <th>DEPARTAMENTO</th>
+                            <th>AGENCIA</th>
+                            <th>ADELANTO</th>
+                            <th>TOTAL</th>
+                            <th>RESTANTE</th>
+                            <th>CLAVE</th>
+                            <th>ESTADO</th>
+                            <th>COMENTARIO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes %}
+                        <tr class="{% if cliente.estado_envio == 'POR_ENVIAR' %} fila-normal
+                                   {% elif cliente.estado_envio == 'EN_TRANSITO' %} fila-transito
+                                   {% elif cliente.estado_envio == 'LLEGO_FALTA_PAGAR' %} fila-falta-pagar
+                                   {% elif cliente.estado_envio == 'RETORNO' %} fila-retorno
+                                   {% elif cliente.estado_envio == 'CANCELADO' %} fila-cancelado
+                                   {% endif %}">
+                            
+                            <td>{{ cliente.tipo_envio }}</td>
+                            <td><strong>{{ cliente.numero_pedido }}</strong></td>
+                            <td>{{ cliente.fecha_registro|date:"d/m/Y" }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td>{{ cliente.dni }}</td>
+                            <td>{{ cliente.telefono }}</td>
+                            <td>{{ cliente.producto_asignado.nombre }}</td>
+                            <td>{% if cliente.regalo %}🎁{% else %}-{% endif %}</td>
+                            <td>{{ cliente.departamento }}</td>
+                            <td>{{ cliente.agencia_destino }}</td>
+                            <td>S/ {{ cliente.monto_inicial }}</td>
+                            <td><strong>S/ {{ cliente.monto_final }}</strong></td>
+                            <td style="color: #ef4444; font-weight: bold;">S/ {{ cliente.restante }}</td>
+                            <td>{{ cliente.clave }}</td>
+                            <td><span style="font-weight: bold;">{{ cliente.get_estado_envio_display }}</span></td>
+                            <td>{{ cliente.comentario }}</td>
+                            <td>
+                                {% if request.user == cliente.campana.trabajador_asignado or request.user.is_superuser %}
+                                    <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-warning" style="padding: 5px 15px; font-size: 12px;">✏️ Editar</a>
+                                {% else %}
+                                    <span style="color: #94a3b8; font-size: 12px; font-weight: bold;">🔒 Solo lectura</span>
+                                {% endif %}
+                            </td>
+                        </tr>    
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

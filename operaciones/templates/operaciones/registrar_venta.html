@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Nueva Venta</title>
+    <!-- Conectamos la pintura maestra -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app">
+
+    <div class="contenedor-centrado">
+        <div class="tarjeta-flotante">
+            
+            <!-- ENCABEZADO DE LA TARJETA -->
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 class="titulo-principal">🛒 Registrar Cliente Nuevo</h2>
+                <p class="texto-secundario">Llena los datos de la venta con cuidado.</p>
+                <hr class="linea-separadora">
+            </div>
+
+            <!-- FORMULARIO -->
+            <form method="POST" class="formulario-moderno">
+                
+                <!-- Sello de seguridad -->
+                {% csrf_token %}
+                
+                <!-- La magia de Django con los nuevos estilos -->
+                {{ form.as_p }}
+                
+                <!-- BOTONERA -->
+                <div class="contenedor-botones">
+                    <button type="submit" class="btn btn-primario">
+                        💾 Guardar Venta
+                    </button>
+                    
+                    <!-- Lógica condicional de Django para el botón cancelar -->
+                    {% if campana %}
+                        <a href="{% url 'clientes_por_campana' campana.id %}" class="btn btn-secundario">
+                            ✖ Cancelar y Volver
+                        </a>
+                    {% else %}
+                        <a href="{% url 'lista_campanas' %}" class="btn btn-secundario">
+                            ✖ Cancelar y Volver
+                        </a>
+                    {% endif %}
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

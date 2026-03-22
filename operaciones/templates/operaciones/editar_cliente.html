@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+    <!-- Conectamos tu nuevo archivo CSS maestro -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app">
+
+    <div class="contenedor-centrado">
+        <div class="tarjeta-flotante">
+            <h2 class="titulo-principal">✏️ Editando Cliente</h2>
+            <p class="texto-secundario">Actualiza los datos de: <strong>{{ cliente.nombre }}</strong></p>
+            <hr class="linea-separadora">
+
+            <!-- El formulario -->
+            <form method="POST" class="formulario-moderno">
+                {% csrf_token %}
+                
+                <!-- Aquí Django dibuja todos los campos de tu EdicionClienteForm -->
+                {{ form.as_p }}
+                
+                <div class="contenedor-botones">
+                    <button type="submit" class="btn btn-primario">💾 Guardar Cambios</button>
+                    <!-- El botón cancelar regresa a la página anterior -->
+                    <a href="javascript:history.back()" class="btn btn-secundario">✖ Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

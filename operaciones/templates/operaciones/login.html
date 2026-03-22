@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <!-- Conectamos la pintura maestra -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app centrado-total">
+
+    <!-- Tarjeta específica para el login -->
+    <div class="tarjeta-flotante tarjeta-login">
+        
+        <div style="text-align: center;">
+            <h2 class="titulo-principal">🔐 Acceso al Sistema</h2>
+            <p class="texto-secundario" style="margin-bottom: 30px;">Ingresa tus credenciales para continuar</p>
+        </div>
+
+        <form method="POST" class="formulario-moderno">
+            {% csrf_token %}
+            
+            <!-- Django dibuja los campos de Usuario y Contraseña por ti con los nuevos moldes -->
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn btn-primario btn-bloque">
+                Entrar
+            </button>
+        </form>
+
+    </div>
+
+</body>
+</html>

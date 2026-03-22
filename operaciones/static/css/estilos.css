@@ -1,0 +1,311 @@
+/* =========================================================
+   ARCHIVO MAESTRO DE ESTILOS - INSPIRACIÓN "APP PREMIUM"
+   ========================================================= */
+
+/* 1. FONDO GENERAL (Dark Mode Elegante) */
+.fondo-app {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); /* Degradado de oscuro a índigo profundo */
+    color: #ffffff;
+    padding: 40px 20px;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 2. CONTENEDORES Y TARJETAS FLOTANTES */
+.contenedor-centrado {
+    width: 100%;
+    max-width: 600px;
+}
+
+.tarjeta-flotante {
+    background-color: #ffffff;
+    color: #1e293b; /* Texto oscuro elegante para contrastar con la tarjeta blanca */
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Sombra suave para dar profundidad */
+}
+
+/* 3. TIPOGRAFÍA Y LÍNEAS */
+.titulo-principal {
+    color: #4f46e5; /* Azul Índigo vibrante */
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.texto-secundario {
+    color: #64748b;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.linea-separadora {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin-bottom: 25px;
+}
+
+/* 4. FORMULARIOS MODERNOS (Magia para {{ form.as_p }}) */
+.formulario-moderno p {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-moderno label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 14px;
+}
+
+/* Redondeando y modernizando las cajas de texto de Django */
+.formulario-moderno input,
+.formulario-moderno select,
+.formulario-moderno textarea {
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+.formulario-moderno input:focus,
+.formulario-moderno select:focus,
+.formulario-moderno textarea:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    background-color: #ffffff;
+}
+
+/* 5. BOTONES ESTILO PÍLDORA */
+.contenedor-botones {
+    margin-top: 35px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px; 
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-3px); /* Efecto de levitación al pasar el mouse */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primario {
+    background-color: #4f46e5; /* Azul Índigo */
+    color: white;
+}
+
+.btn-primario:hover {
+    background-color: #4338ca;
+}
+
+.btn-secundario {
+    background-color: #e2e8f0; /* Gris claro para no robar atención */
+    color: #475569;
+}
+
+.btn-secundario:hover {
+    background-color: #cbd5e1;
+}
+
+
+
+/* =========================================================
+   6. ESTRUCTURAS DE PANTALLA PRINCIPAL (Dashboard)
+   ========================================================= */
+
+/* Barra de navegación superior */
+.barra-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding: 20px 35px;
+    border-radius: 20px;
+}
+
+/* Grilla inteligente para las tarjetas de campaña */
+.grilla-tarjetas {
+    display: grid;
+    /* Esto hace que las tarjetas se adapten solas dependiendo del tamaño de la pantalla */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+/* Efecto de levitación extra para las tarjetas de campaña */
+.tarjeta-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tarjeta-hover:hover {
+    transform: translateY(-8px); /* Se levanta más al pasar el mouse */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); /* Sombra mucho más pronunciada */
+}
+
+/* Botón de Alerta / Salir */
+.btn-alerta {
+    background-color: #ef4444; /* Rojo elegante */
+    color: white;
+}
+
+.btn-alerta:hover {
+    background-color: #dc2626;
+}
+
+
+/* =========================================================
+   7. LISTA DE CLIENTES (Tablas Gigantes y Buscadores)
+   ========================================================= */
+
+/* Contenedor más ancho para tablas grandes */
+.contenedor-ancho {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Envoltorio para que la tabla tenga scroll horizontal sin dañar la página */
+.tabla-responsive {
+    overflow-x: auto;
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Ajustes de color para las filas para que se lean bien sobre colores claros */
+.fila-normal { background-color: #ffffff; color: #0f172a; }
+.fila-transito { background-color: #e0e7ff; color: #1e3a8a; } 
+.fila-falta-pagar { background-color: #dcfce7; color: #14532d; } 
+.fila-retorno { background-color: #fef08a; color: #713f12; } 
+.fila-cancelado { background-color: #fee2e2; color: #7f1d1d; } 
+
+/* Formularios en línea (Buscador y Excel) */
+.formulario-enlinea {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8fafc;
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+}
+
+.input-moderno {
+    border: none;
+    background: transparent;
+    padding: 8px;
+    font-size: 14px;
+    outline: none;
+    color: #0f172a;
+}
+
+/* Nuevo Botón Warning (Amarillo/Dorado) para Editar/Excel */
+.btn-warning {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #d97706;
+}
+
+/* Mensajes de Alerta (Toast) */
+.alerta {
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.alerta-verde {
+    background-color: #10b981;
+    color: white;
+}
+
+.alerta-roja {
+    background-color: #ef4444;
+    color: white;
+}
+
+
+/* =========================================================
+   8. PANTALLA DE LOGIN (Puerta de entrada)
+   ========================================================= */
+
+/* Modificador para centrar la tarjeta exactamente en el medio de la pantalla */
+.centrado-total {
+    align-items: center !important; /* Esto empuja la tarjeta al centro vertical */
+}
+
+/* Tarjeta específica para el login (más delgada que las demás) */
+.tarjeta-login {
+    width: 100%;
+    max-width: 380px;
+    padding: 45px 35px;
+}
+
+/* Botón de ancho completo para formularios pequeños */
+.btn-bloque {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); /* Sombra color azul índigo */
+}
+
+/* Ocultar el texto de ayuda que Django a veces pone en los inputs de login */
+.formulario-moderno .helptext {
+    display: none;
+}
+
+
+/* =========================================================
+   9. INVENTARIO Y ETIQUETAS DE ESTADO
+   ========================================================= */
+
+/* Moldes para las "Píldoras" de estado en las tablas */
+.etiqueta-verde {
+    background-color: #dcfce7; /* Verde fondo muy clarito */
+    color: #166534; /* Texto verde oscuro */
+    padding: 6px 14px;
+    border-radius: 20px; /* Bordes totalmente redondeados */
+    font-weight: bold;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.etiqueta-roja {
+    background-color: #fee2e2; /* Rojo fondo muy clarito */
+    color: #991b1b; /* Texto rojo oscuro */
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 13px;
+    display: inline-block;
+}

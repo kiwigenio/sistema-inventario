@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto</title>
+    <!-- Conectamos TU pintura maestra (Adiós Bootstrap) -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app centrado-total">
+
+    <div class="contenedor-centrado" style="max-width: 500px;">
+        
+        <!-- Botón para retroceder -->
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'ver_inventario' %}" class="btn btn-secundario">⬅️ Volver al Inventario</a>
+        </div>
+
+        <!-- La Tarjeta del Formulario -->
+        <div class="tarjeta-flotante">
+            
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 class="titulo-principal">📦 Nueva Mercadería</h2>
+                <p class="texto-secundario">Registra un nuevo producto en tu almacén.</p>
+                <hr class="linea-separadora">
+            </div>
+            
+            <!-- EL FORMULARIO -->
+            <form method="POST" class="formulario-moderno">
+                <!-- 🛡️ EL ESCUDO DE SEGURIDAD DE DJANGO -->
+                {% csrf_token %}
+                
+                <!-- Las cajas de texto dibujadas por Django con nuestro nuevo estilo -->
+                {{ form.as_p }}
+                
+                <!-- Botón de Guardar que ocupa todo el ancho -->
+                <button type="submit" class="btn btn-primario btn-bloque" style="margin-top: 25px;">
+                    💾 Guardar en Almacén
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

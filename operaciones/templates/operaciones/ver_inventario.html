@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario General</title>
+    <!-- Conectamos la pintura maestra -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app">
+
+    <!-- Usamos un contenedor un poco más estrecho que el de clientes para que se vea ordenado -->
+    <div class="contenedor-ancho" style="max-width: 1000px;">
+        
+        <!-- ENCABEZADO SUPERIOR -->
+        <div class="tarjeta-flotante barra-superior">
+            <div>
+                <h2 class="titulo-principal" style="margin:0;">📦 Inventario</h2>
+                <p class="texto-secundario" style="margin-top: 5px; margin-bottom: 0;">Stock en Tiempo Real</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="color: #475569; font-weight: bold;">👤 Trabajador: {{ request.user.username }}</span> 
+                <a href="{% url 'logout' %}" class="btn btn-alerta" style="padding: 8px 18px; font-size: 14px;">🚪 Salir</a>
+            </div>
+        </div>
+
+        <!-- BOTONERA -->
+        <div style="margin-bottom: 25px; display: flex; gap: 15px;">
+            <a href="{% url 'lista_campanas' %}" class="btn btn-secundario">🔙 Volver al Panel</a>
+            
+            {% if request.user.is_superuser %}
+                <!-- El botón verde de éxito -->
+                <a href="{% url 'agregar_producto' %}" class="btn" style="background-color: #10b981; color: white;">
+                    ➕ Agregar Nueva Mercadería
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- TABLA DE INVENTARIO -->
+        <div class="tarjeta-flotante" style="padding: 0; overflow: hidden;">
+            <div class="tabla-responsive">
+                <table class="tabla-moderna">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>PRODUCTO</th>
+                            <th>STOCK DISPONIBLE</th>
+                            <!-- Si eres el Jefe, ves la columna de sumar stock -->
+                            {% if request.user.is_superuser %}
+                                <th>AGREGAR STOCK</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr class="fila-normal">
+                            <td><strong>#{{ producto.id }}</strong></td>
+                            <td style="font-weight: bold;">{{ producto.nombre }}</td>
+                            
+                            <!-- MAGIA VISUAL: Etiquetas de colores para el stock -->
+                            <td>
+                                {% if producto.stock_actual == 0 %}
+                                    <span class="etiqueta-roja">Sin Stock (0)</span>
+                                {% else %}
+                                    <span class="etiqueta-verde">{{ producto.stock_actual }} unidades</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Formulario para sumar stock (Solo Jefe) -->
+                            {% if request.user.is_superuser %}
+                            <td style="text-align: center;">
+                                <form action="{% url 'sumar_stock' producto.id %}" method="POST" style="display: flex; gap: 8px; justify-content: center; align-items: center; margin: 0;">
+                                    {% csrf_token %}
+                                    <input type="number" name="cantidad" min="1" placeholder="Ej: 10" required class="input-moderno" style="width: 80px; padding: 6px 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+                                    <button type="submit" class="btn btn-primario" style="padding: 6px 15px; font-size: 13px;">
+                                        ➕
+                                    </button>
+                                </form>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% empty %}
+                        <tr class="fila-normal">
+                            <td colspan="4" style="text-align: center; padding: 30px; color: #64748b;">
+                                No hay productos registrados en el inventario.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

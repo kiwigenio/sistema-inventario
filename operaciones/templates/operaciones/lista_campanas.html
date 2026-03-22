@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Campañas</title>
+    <!-- Conectamos la pintura maestra -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="fondo-app">
+
+    <!-- Envolvemos todo en un contenedor principal para centrarlo y darle márgenes -->
+    <div style="width: 100%; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column;">
+        
+        <!-- ENCABEZADO SUPERIOR (Como una barra de navegación elegante) -->
+        <div class="tarjeta-flotante barra-superior">
+            <div>
+                <h2 class="titulo-principal" style="margin: 0; font-size: 24px;">🏢 Panel de Campañas</h2>
+                <p class="texto-secundario" style="margin: 5px 0 0 0;">Selecciona una campaña para ver sus ventas.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="color: #475569; font-weight: bold; font-size: 15px;">👤 Hola, {{ request.user.username }}</span> 
+                <!-- Usamos el botón rojo de alerta para salir -->
+                <a href="{% url 'logout' %}" class="btn btn-alerta" style="padding: 8px 18px; font-size: 14px;">🚪 Salir</a>
+            </div>
+        </div>
+
+        <!-- BOTONES DE ACCESO RÁPIDO -->
+        <div style="margin-bottom: 30px; display: flex; gap: 15px;">
+            <a href="{% url 'ver_inventario' %}" class="btn btn-primario">📦 Ver Stock de Inventario</a>
+            
+            {% if request.user.is_superuser %}
+                <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-secundario">⚙️ Panel Avanzado</a>
+            {% endif %}
+        </div>
+
+        <!-- GRILLA DE CAMPAÑAS (Las tarjetas flotantes interactivas) -->
+        <div class="grilla-tarjetas">
+            {% for campana in campanas %}
+            <!-- Le ponemos una raya azul arriba para darle estilo corporativo -->
+            <div class="tarjeta-flotante tarjeta-hover" style="border-top: 6px solid #4f46e5; text-align: center; padding: 30px 20px;">
+                
+                <h3 style="color: #0f172a; margin-top: 0; font-size: 22px; margin-bottom: 5px;">{{ campana.nombre }}</h3>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 25px;">
+                    Asignado a:<br>
+                    <strong style="color: #334155; font-size: 16px;">{{ campana.trabajador_asignado.username }}</strong>
+                </p>
+                
+                <!-- Botón de acción principal de la tarjeta -->
+                <a href="{% url 'clientes_por_campana' campana.id %}" class="btn btn-primario" style="width: 80%; display: inline-block;">
+                    📊 Ver Datos
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>
