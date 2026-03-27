@@ -38,7 +38,9 @@ class Cliente(models.Model):
     ]
 
     ESTADO_PEDIDO_OPCIONES = [ 
-        ('POR_ENVIAR', 'Por enviar'),
+        ('PRODUCTO_EMBALADO', 'Producto embalado'),
+        ('PRODUCTO_REGISTRADO', 'Producto registrado'),
+        ('VOUCHER_ENVIADO', 'Voucher enviado'),
         ('EN_TRANSITO', 'En transito'),
         ('LLEGO_FALTA_PAGAR', 'Llego pero falta pagar'),
         ('CANCELADO', 'Cancelado'),

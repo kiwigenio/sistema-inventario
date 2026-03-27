@@ -94,7 +94,10 @@
                     </thead>
                     <tbody>
                         {% for cliente in clientes %}
-                        <tr class="{% if cliente.estado_envio == 'POR_ENVIAR' %} fila-normal
+                        <tr class="
+                                   {% if cliente.estado_envio == 'PRODUCTO_EMBALADO' %} fila-embalado
+                                   {% elif cliente.estado_envio == 'PRODUCTO_REGISTRADO' %} fila-registrado
+                                   {% elif cliente.estado_envio == 'VOUCHER_ENVIADO' %} fila-voucher
                                    {% elif cliente.estado_envio == 'EN_TRANSITO' %} fila-transito
                                    {% elif cliente.estado_envio == 'LLEGO_FALTA_PAGAR' %} fila-falta-pagar
                                    {% elif cliente.estado_envio == 'RETORNO' %} fila-retorno

@@ -198,7 +198,8 @@
 }
 
 /* Ajustes de color para las filas para que se lean bien sobre colores claros */
-.fila-normal { background-color: #ffffff; color: #0f172a; }
+.fila-embalado { background-color: #e0f2fe; color: #0369a1; } 
+.fila-registrado { background-color: #fef3c7; color: #92400e; }
 .fila-transito { background-color: #e0e7ff; color: #1e3a8a; } 
 .fila-falta-pagar { background-color: #dcfce7; color: #14532d; } 
 .fila-retorno { background-color: #fef08a; color: #713f12; } 
@@ -308,4 +309,19 @@
     font-weight: bold;
     font-size: 13px;
     display: inline-block;
+}
+table {
+    table-layout: fixed; /* Este es el secreto: ignora el largo del texto */
+    width: 100%;         /* Se estira hasta el borde de la pantalla */
+    border-collapse: collapse;
+}
+
+/* 2. Configuramos las celdas para que el texto "salte" */
+th, td {
+    word-wrap: break-word;   /* Si la palabra es muy larga, la rompe */
+    overflow-wrap: break-word;
+    white-space: normal;     /* Permite saltos de línea naturales */
+    padding: 10px;           /* Espacio para que no se vea amontonado */
+    text-align: left;
+    vertical-align: top;     /* Para que el texto empiece arriba si la celda crece */
 }
