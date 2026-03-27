@@ -328,3 +328,31 @@ th, td {
     text-align: left;
     vertical-align: middle; 
 }
+
+/* =========================================================
+   AJUSTES FINOS PARA LA TABLA FIJA DE 17 COLUMNAS
+   ========================================================= */
+
+/* 1. Reducir ligeramente la letra y el relleno para que quepa más info */
+.tabla-moderna {
+    font-size: 12.5px !important; 
+}
+
+.tabla-moderna th, 
+.tabla-moderna td {
+    padding: 8px 4px !important; /* Menos espacio a los lados, más respiro al texto */
+}
+
+/* 2. Proteger la última columna (Acciones) y el botón */
+.tabla-moderna td:last-child, 
+.tabla-moderna th:last-child {
+    white-space: nowrap !important; /* Obliga al botón a quedarse en una sola línea */
+    width: 6% !important;           /* Le da un ancho fijo solo a esta columna */
+    text-align: center;
+}
+
+/* Hacer el botón un poco más compacto */
+.tabla-moderna td:last-child .btn {
+    padding: 5px 12px;
+    font-size: 12px;
+}
