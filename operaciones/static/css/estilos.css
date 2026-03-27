@@ -310,18 +310,21 @@
     font-size: 13px;
     display: inline-block;
 }
+/* 1. Bloqueamos el ancho de la tabla al límite de la pantalla */
 table {
-    table-layout: fixed; /* Este es el secreto: ignora el largo del texto */
-    width: 100%;         /* Se estira hasta el borde de la pantalla */
+    table-layout: fixed !important; /* El !important obliga al navegador a obedecer */
+    width: 100% !important;
+    max-width: 100% !important; 
     border-collapse: collapse;
 }
 
-/* 2. Configuramos las celdas para que el texto "salte" */
+/* 2. Obligamos al contenido a romperse hacia abajo, NUNCA hacia los lados */
 th, td {
-    word-wrap: break-word;   /* Si la palabra es muy larga, la rompe */
-    overflow-wrap: break-word;
-    white-space: normal;     /* Permite saltos de línea naturales */
-    padding: 10px;           /* Espacio para que no se vea amontonado */
+    white-space: normal !important;      /* Permite que el texto baje a la siguiente línea */
+    word-wrap: break-word !important;    /* Rompe palabras largas */
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;   /* El toque mágico para textos rebeldes */
+    padding: 12px 10px;
     text-align: left;
-    vertical-align: top;     /* Para que el texto empiece arriba si la celda crece */
+    vertical-align: middle; 
 }
